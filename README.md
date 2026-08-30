@@ -22,12 +22,16 @@ The engine uses the `PuLP` library to solve the following constraints:
 * $D_t$ = Required staff demand for time block $t$.
 
 **Objective (Minimize Total Wages):**
+
 $$ \min \sum_{t=1}^{84} (200 F_t + 72 P_t) $$
 
 **Constraints:**
 1. **Demand Satisfaction:** Active workers (FT starting now + FT continuing from last block + PT starting now) must meet or exceed required demand.
+
 $$ F_t + F_{t-1} + P_t \ge D_t \quad \forall t $$
+
 2. **Operational Part-Time Cap:** Part-time hours cannot exceed 35% of total hours worked.
+
 $$ \sum_{t=1}^{84} 4 P_t \le 0.35 \left( \sum_{t=1}^{84} (8 F_t + 4 P_t) \right) $$
 
 ## Project Pipeline (4 Phases)
