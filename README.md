@@ -2,7 +2,16 @@
 
 An end-to-end Operations Research and Capacity Planning pipeline that uses Mixed-Integer Linear Programming (MILP) to generate an optimal, cost-efficient labor schedule. 
 
-This project simulates a highly volatile logistics environment where bulk inventory deliveries cause massive spikes in labor demand. The Python-based optimization engine calculates the exact number of Full-Time and Part-Time shifts required to cover demand without violating corporate stability policies, and automatically exports a multi-sheet, formatted Excel dashboard for operations managers. The model is built dynamically, allowing stakeholders to adjust business parameters (such as wage rates or part-time ratios) at the start to instantly generate updated, fully optimized schedules and financial breakdowns.
+This project simulates a highly volatile logistics environment where bulk inventory deliveries cause massive spikes in labor demand. The optimization engine calculates the exact number of Full-Time and Part-Time shifts required to cover demand without violating corporate HR stability policies.
+
+This repository features a "dual-threat" implementation:
+1. **The Backend Pipeline (Jupyter/Colab):** A programmatic data pipeline that ingests raw business rules via Excel, runs the PuLP optimization engine, and outputs a mathematically perfect labor schedule.
+2. **The Frontend Web App (Streamlit):** A polished, interactive SaaS dashboard allowing non-technical operations managers to adjust wage rates and HR constraints via UI sliders to instantly generate new schedules.
+
+## Interactive Streamlit Web App
+The optimization engine is deployed as an interactive web application. Stakeholders can adjust business parameters (like part-time caps and hourly wages) on the fly, visualizing the financial breakdown and downloading the final schedule without touching code.
+
+*ss*
 
 ## The Operational Problem
 Warehouses utilizing Economic Order Quantity (EOQ) inventory models often face severe capacity planning challenges. Instead of a steady flow of daily trucks, they receive massive bulk shipments on random days, causing labor demand to spike by up to 250%. 
@@ -34,26 +43,24 @@ $$ F_t + F_{t-1} + P_t \ge D_t \quad \forall t $$
 
 $$ \sum_{t=1}^{84} 4 P_t \le 0.35 \left( \sum_{t=1}^{84} (8 F_t + 4 P_t) \right) $$
 
-## Project Pipeline (4 Phases)
+## Visual Analytics & Automated Excel Dashboard
+The final stage of the pipeline automatically translates the raw mathematical outputs into a formatted, multi-sheet Excel dashboard using `Pandas` and `OpenPyXL`. **The generated `Optimized_Warehouse_Schedule.xlsx` file is available in this repository.** 
 
-1. **Parameter Ingestion:** Python checks for a `Warehouse_Parameters.xlsx` file. If none exists, it generates baseline business rules (wage rates, PT ratio caps, shift lengths). If a stakeholder updates the Excel file, the Python engine dynamically recalculates the entire linear programming model.
-2. **Demand Simulation:** Generates a 14-day schedule (84 4-hour blocks) with baseline demand, randomly injecting 250% EOQ delivery spikes to stress-test the algorithm.
-3. **MILP Optimization (`PuLP`):** Solves the 168-variable mathematical puzzle to find the absolute mathematical minimum cost. Translates raw shifts into actionable capacity planning goals.
-4. **Automated Excel Dashboarding:** Uses `pandas` and `openpyxl` to write the optimal schedule and executive summary back into a formatted, multi-sheet Excel file, embedding Matplotlib/Seaborn visualization charts directly into the spreadsheets.
+The pipeline seamlessly embeds the following `Matplotlib` and `Seaborn` data visualizations directly into the stakeholder reports:
 
-## Visual Outputs
-*<img width="1402" height="371" alt="image" src="https://github.com/user-attachments/assets/6e675c75-d4c6-42a3-bc88-c978ccdb0596" />*
-*<img width="1584" height="584" alt="image" src="https://github.com/user-attachments/assets/7422bad2-ef72-4e10-afe1-2b3f2d9d4429" />*
+*![HR Charts](hr_charts.png)*
+
+*![Coverage Chart](coverage_chart.png)*
 
 ## Tech Stack
 * **Python** (Core Logic)
+* **Streamlit** (Frontend Web Framework)
 * **PuLP** (Mixed-Integer Linear Programming Engine)
-* **Pandas** (Data Manipulation & Pipeline)
-* **Matplotlib / Seaborn** (Data Visualization)
+* **Pandas & NumPy** (Data Manipulation)
+* **Matplotlib & Seaborn** (Data Visualization)
 * **OpenPyXL** (Automated Excel Formatting & Image Embedding)
 
-## How to Run
+## How to Run Locally
 1. Clone the repository.
-2. Install dependencies: `pip install pandas numpy pulp matplotlib seaborn openpyxl`
-3. Run the Jupyter Notebook from top to bottom.
-4. Modify `Warehouse_Parameters.xlsx` and re-run to see the MILP engine dynamically adapt to new business inputs!
+2. Install dependencies: `pip install -r requirements.txt`
+3. Launch the web app: `streamlit run app.py`
