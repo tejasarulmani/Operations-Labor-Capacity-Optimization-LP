@@ -11,7 +11,7 @@ This repository features a "dual-threat" implementation:
 ## Interactive Streamlit Web App
 The optimization engine is deployed as an interactive web application. Stakeholders can adjust business parameters (like part-time caps and hourly wages) on the fly, visualizing the financial breakdown and downloading the final schedule without touching code.
 
-*ss*
+*![Streamlit Dashboard](Streamlit_dashboard.png)*
 
 ## The Operational Problem
 Warehouses utilizing Economic Order Quantity (EOQ) inventory models often face severe capacity planning challenges. Instead of a steady flow of daily trucks, they receive massive bulk shipments on random days, causing labor demand to spike by up to 250%. 
